@@ -1,0 +1,25 @@
+.instagram {
+		display: flex;
+		flex-wrap: wrap;
+		justify-content: space-between;
+		margin: 20px 0px;
+}
+
+.image {
+	display: inline-block;
+	width: 100%;
+	padding-bottom: 100%;
+	background-size: cover;
+	background-position: 50%;
+	overflow: hidden;
+	position: relative;
+	border-radius: 5px;
+}
+
+.caption {
+	display: none;
+}
+
+.instagram span {
+	display: none;
+}

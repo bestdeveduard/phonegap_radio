@@ -1,0 +1,130 @@
+<?xml version='1.0' encoding='utf-8'?>
+<widget id="com.naberiz.naberizlive" version="1.2.5" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0" xmlns:gap="http://phonegap.com/ns/1.0">
+    <name>NaberizLive</name>
+    <description>
+        NaberizLive App for Naberiz.com
+    </description>
+    <author email="contact@naberiz.com" href="http://www.naberiz.com">
+        Naberiz Admin
+    </author>
+    <content src="index.html" />
+    <access origin="*" />
+
+    
+
+    <plugin name="cordova-plugin-fullscreen" source="npm" />
+    <plugin name="cordova-plugin-splashscreen" source="npm" />
+	<plugin name="cordova-plugin-whitelist" source="npm"/>
+    <!--<plugin name="cordova-allow-background-audio" source="npm"/>
+    <plugin name="cordova-plugin-nowplaying" source="npm"/>
+    <plugin name="cordova-plugin-media" source="npm"/>
+    <plugin name="cordova-plugin-cache-clear" source="npm"/>-->
+    <gap:plugin name="phonegap-admob" source="npm"/>
+	
+	<platform name="ios">
+    <preference name="orientation" value="portrait" />
+
+    <preference name="iosPersistentFileLocation" value="Library" />
+
+    <splash src="splash/ios/Default@2x~universal~anyany.jpg" />
+    <splash src="splash/ios/Default@2x~universal~comany.jpg" />
+    <splash src="splash/ios/Default@3x~universal~anyany.jpg" />
+    <splash src="splash/ios/Default@3x~universal~comany.jpg" />
+	<!-- iOS 8.0+ -->
+        <!-- iOS 6.1 -->
+        <!-- iPhone / iPod Touch -->
+        <icon src="icon/ios/icon-57.png" width="57" height="57" />
+        <icon src="icon/ios/icon-57-2x.png" width="114" height="114" />
+        <!-- iPad -->
+        <icon src="icon/ios/icon-72.png" width="72" height="72" />
+        <icon src="icon/ios/icon-72-2x.png" width="144" height="144" />
+        <icon src="icon/ios/Icon-60-3x.png" width="180" height="180" />
+	
+	</platform>
+
+
+	<platform name="android">
+
+    <edit-config file="app/src/main/AndroidManifest.xml" mode="merge" target="/manifest/application" xmlns:android="http://schemas.android.com/apk/res/android">
+        <application android:usesCleartextTraffic="true" />
+        <application android:networkSecurityConfig="@xml/network_security_config" />
+    </edit-config>
+
+    <config-file parent="/manifest/application" target="AndroidManifest.xml">
+    </config-file>
+
+
+
+    <preference name="android-targetSdkVersion" value="29" />
+    <preference name="android-minSdkVersion" value="20" />
+    <preference name="orientation" value="portrait" />
+    <preference name="AndroidPersistentFileLocation" value="Internal" />
+    <preference name="loadUrlTimeoutValue" value="700000" />
+
+    <preference name="SplashScreen" value="screen" />
+    <preference name="SplashScreenDelay" value="3000" />
+    <preference name="SplashMaintainAspectRatio" value="true" />
+    <preference name="SplashShowOnlyFirstTime" value="false" />
+    <preference name="SplashScreenSpinnerColor" value="black" />
+    <preference name="ShowSplashScreenSpinner" value="false"/>
+
+    <splash src="www/splash/android/splash-port-hdpi.png" qualifier="port-hdpi"/>
+    <splash src="www/splash/android/splash-port-xhdpi.png" qualifier="port-xhdpi"/>
+    <splash src="www/splash/android/splash-port-xxhdpi.png" qualifier="port-xxhdpi"/>
+    <splash src="www/splash/android/splash-port-xxxhdpi.png" qualifier="port-xxxhdpi"/>
+    <splash src="splash.png" />
+        <!--
+            ldpi    : 36x36 px
+            mdpi    : 48x48 px
+            hdpi    : 72x72 px
+            xhdpi   : 96x96 px
+            xxhdpi  : 144x144 px
+            xxxhdpi : 192x192 px
+        -->
+        <icon src="www/icon/android/icon-36-ldpi.png" density="ldpi" />
+        <icon src="www/icon/android/icon-48-mdpi.png" density="mdpi" />
+        <icon src="www/icon/android/icon-72-hdpi.png" density="hdpi" />
+        <icon src="www/icon/android/icon-96-xhdpi.png" density="xhdpi" />
+        <icon src="www/icon/android/icon-144-xxhdpi.png" density="xxhdpi" />
+        <icon src="www/icon/android/icon-192-xxxhdpi.png" density="xxxhdpi" />
+
+</platform>
+
+<!-- Allow images, xhrs, etc. to .com -->
+<access origin="*" />
+
+<!-- Enable requests to content: URLs -->
+<access origin="content:///*" />
+<access origin="https://sirius.shoutca.st:8431/" />
+<access origin="http://sirius.shoutca.st:8431/" />
+
+
+<!-- Allow all unrecognized URLs to open installed apps
+     *NOT RECOMMENDED* -->
+<allow-intent href="*" />
+
+
+
+<!-- Allow SMS links to open messaging app -->
+<allow-intent href="sms:*" />
+
+<!-- Allow tel: links to open the dialer -->
+<allow-intent href="tel:*" />
+
+<!-- Allow geo: links to open maps -->
+<allow-intent href="geo:*" />
+
+<!-- Allow links to example.com -->
+<allow-navigation href="*" />
+
+<allow-navigation href="http://naberiz.com/*" />
+<allow-navigation href="https://naberiz.com/*" />
+<allow-navigation href="https://facebook.com/*" />
+<allow-navigation href="https://instagram.com/*" />
+<allow-navigation href="https://youtube.com/*" />
+<allow-navigation href="https://twitter.com/*" />
+<allow-navigation href="https://sirius.shoutca.st:8431/" />
+<allow-navigation href="http://sirius.shoutca.st:8431/" />
+ 
+	
+</widget>

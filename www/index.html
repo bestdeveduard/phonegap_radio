@@ -1,0 +1,728 @@
+<!DOCTYPE html>
+<html>
+
+<!--
+Page    : index / NabApp
+Version : 1.0
+Author  : Birol Varol
+URI     : http://www.naberiz.com
+-->
+ 
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no, width=device-width height=device-height, viewport-fit=cover">
+        <meta name="description" content="NaberizLive - Naberiz App">
+        <meta name="keywords" content="naberiz, naberizlive, naberizmillet, naberiz radio, naberiz radyo, ios, android, turkce rap">
+
+        <title>Naberiz App</title>
+
+        
+        <!-- Font -->
+    	<link rel="dns-prefetch" href="//fonts.googleapis.com">
+    	<link href="https://fonts.googleapis.com/css?family=Rubik:300,400,500" rel="stylesheet">
+
+    	<!-- Bootstrap CSS -->
+    	<link rel="stylesheet" href="css/bootstrap.min.css">
+    	<!-- Themify Icons -->
+    	<link rel="stylesheet" href="css/themify-icons.css">
+    	<!-- Owl carousel -->
+    	<link rel="stylesheet" href="css/owl.carousel.min.css">
+    	<!-- Main css -->
+    	<link href="css/style.css" rel="stylesheet">
+		<!-- Instagram css -->
+    	<link href="css/instagramfeed.css" rel="stylesheet">
+        
+        <!-- playlist scroll -->
+    	<link rel="stylesheet" type="text/css" href="css/jquery.mCustomScrollbar.css" media="all" />
+	    <link id="mrp-css" rel="stylesheet" type="text/css" href="css/modern3.css" />
+       
+        <script src="js/jquery-3.2.1.min.js"></script>
+        <script src="js/new.js?2"></script>			
+        <script type="text/javascript">
+
+            var player;
+            jQuery(document).ready(function($){
+                
+                var settings = {
+                    instanceName:"modern3",
+                    sourcePath:"",
+                    activePlaylist:".playlist1",
+                    volume:0.8,
+                    autoPlay:false,
+                    useScroll:true,
+                    scrollOrientation:"vertical",
+                    scrollTheme:"minimal",
+                    facebookAppId:"",
+                    lastPlayedInterval:10000,
+                    createHistoryList:false,
+                    getHistoryArtwork:false,
+                    defaultHistoryArtwork: "data/default_artwork/NaberizLiveThumbnail.png",
+                    getPlayerArtwork:false,
+                    defaultPlayerArtwork: "data/default_artwork/NaberizVinyl.gif",
+                    defaultSongArtist: "DATA NOT AVAILABLE",
+                    defaultSongTitle: "DATA NOT AVAILABLE",
+
+                    createRadioList:false,
+
+                };
+
+                player = $("#mrp-wrapper").mrp(settings);
+
+            });
+
+        </script>
+
+        
+    </head>
+    
+    
+    <body data-spy="scroll" data-target="#navbar" data-offset="30">
+        <script type="text/javascript" src="cordova.js"></script>
+
+
+    <!---------------- DeviceReady ------------------------>
+
+    <script type="text/javascript" charset="utf-8" src="phonegap-1.0.0.js"></script>
+    <script type="text/javascript" charset="utf-8">
+    function onDeviceReady() {
+        document.removeEventListener('deviceready', onDeviceReady, false);
+    
+        // Set AdMobAds options:
+        admob.setOptions({
+            publisherId:          "ca-app-pub-8575286589290484~7412963036",  // Required
+            interstitialAdId:     "ca-app-pub-8575286589290484/6761417845",  // Optional
+            tappxIdiOS:           "/XXXXXXXXX/Pub-XXXX-iOS-IIII",            // Optional
+            tappxIdAndroid:       "/XXXXXXXXX/Pub-XXXX-Android-AAAA",        // Optional
+            tappxShare:           0.5                                        // Optional
+        });
+    }
+    
+    document.addEventListener("deviceready", onDeviceReady, false);
+
+    var isAppForeground = true;
+
+function initAds() {
+  if (admob) {
+    var adPublisherIds = {
+      ios : {
+        banner : "ca-app-pub-XXXXXXXXXXXXXXXX/BBBBBBBBBB",
+        interstitial : "ca-app-pub-8575286589290484/6761417845"
+      },
+      android : {
+        banner : "ca-app-pub-XXXXXXXXXXXXXXXX/BBBBBBBBBB",
+        interstitial : "ca-app-pub-8575286589290484/6761417845"
+      }
+    };
+      
+    var admobid = (/(android)/i.test(navigator.userAgent)) ? adPublisherIds.android : adPublisherIds.ios;
+        
+    admob.setOptions({
+      publisherId:      admobid.banner,
+      interstitialAdId: admobid.interstitial,
+      tappxIdiOS:       "/XXXXXXXXX/Pub-XXXX-iOS-IIII",
+      tappxIdAndroid:   "/XXXXXXXXX/Pub-XXXX-Android-AAAA",
+      tappxShare:       0.5,
+      
+    });
+
+    registerAdEvents();
+    
+  } else {
+    alert('AdMobAds plugin not ready');
+  }
+}
+
+function onAdLoaded(e) {
+  if (isAppForeground) {
+    if (e.adType === admob.AD_TYPE.INTERSTITIAL) {
+      console.log("An interstitial has been loaded and autoshown. If you want to load the interstitial first and show it later, set 'autoShowInterstitial: false' in admob.setOptions() and call 'admob.showInterstitialAd();' here");
+    } else if (e.adType === admob.AD_TYPE.BANNER) {
+      console.log("New banner received");
+    }
+  }
+}
+
+function onPause() {
+  if (isAppForeground) {
+    admob.destroyBannerView();
+    isAppForeground = false;
+  }
+}
+
+function onResume() {
+  if (!isAppForeground) {
+    setTimeout(admob.createBannerView, 1);
+    setTimeout(admob.requestInterstitialAd, 1);
+    isAppForeground = true;
+  }
+}
+
+// optional, in case respond to events
+function registerAdEvents() {
+  document.addEventListener(admob.events.onAdLoaded, onAdLoaded);
+  document.addEventListener(admob.events.onAdFailedToLoad, function (e) {});
+  document.addEventListener(admob.events.onAdOpened, function (e) {});
+  document.addEventListener(admob.events.onAdClosed, function (e) {});
+  document.addEventListener(admob.events.onAdLeftApplication, function (e) {});
+  document.addEventListener(admob.events.onInAppPurchaseRequested, function (e) {});
+  
+  document.addEventListener("pause", onPause, false);
+  document.addEventListener("resume", onResume, false);
+}
+    
+function onDeviceReady() {
+  document.removeEventListener('deviceready', onDeviceReady, false);
+  initAds();
+
+  // display a banner at startup
+  admob.createBannerView();
+    
+  // request an interstitial
+  admob.requestInterstitialAd();
+}
+
+document.addEventListener("deviceready", onDeviceReady, false);
+
+    </script>
+    
+        
+        <!-- Nav Menu -->
+
+    <div class="nav-menu fixed-top">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    <nav class="navbar navbar-dark navbar-expand-lg">
+                        <a class="navbar-brand" href="index.html"><img src="images/nlogo.png" class="img-fluid" alt="logo"></a> <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation"> <span class="navbar-toggler-icon"></span> </button>
+                        <div class="collapse navbar-collapse" id="navbar">
+                            <ul class="navbar-nav ml-auto">
+                                
+                                <li class="nav-item"> <a class="nav-link active" href="#home">RADYO <span class="sr-only">(current)</span></a> </li>
+                                <li class="nav-item"> <a class="nav-link" href="#billboard">BILLBOARD</a> </li>
+                                <li class="nav-item"> <a class="nav-link" href="#naberiz">NABERIZ YAYIN</a> </li>
+                                <li class="nav-item"> <a class="nav-link" href="#adverts">NABERIZ AFİŞLER</a> </li>
+                                <li class="nav-item"> <a class="nav-link" href="#playlist">NABERIZ PLAYLIST</a> </li>
+                                <li class="nav-item"> <a class="nav-link" href="#requests">İSTEKLERİNİZ</a> </li>
+                                <li class="nav-item"> <a class="nav-link" href="#media">NABERIZ MEDYA</a> </li>
+                                <li class="nav-item"> <a class="nav-link" href="#events">ETKİNLİKLER</a> </li>
+                                <li class="nav-item"> <a class="nav-link" href="#youtube">YOUTUBE VIDEO'LAR</a> </li>
+                                <li class="nav-item"> <a class="nav-link" href="#social">SOSYAL PAYLAŞIMLARIMIZ</a> </li>
+                                <li class="nav-item"> <a class="nav-link" href="#classifieds">SERİ İLANLAR</a> </li>
+                                <li class="nav-item"><a href="https://wa.me/447786792178" class="btn btn-outline-light my-3 my-sm-0 ml-lg-3">BIZE WHATSAPP'DEN ULAŞIN</a></li>
+                                
+                            </ul>
+                            <div class="col-lg-6">
+                                <div class="socials">
+                                    <a href="https://www.facebook.com/naberizz"><span class="facebook"></span></a>
+                                    <a href="https://www.twitter.com/naberiz"><span class="twitter"></span></a>
+                                    <a href="https://www.instagram.com/naberiz_"><span class="instagrambutton"></span></a>
+                                    <a href="https://www.youtube.com/channel/UCrUnJurpWruKtFmNQWSlSDA"><span class="youtube"></span></a>
+                                    <a href="mailto:contact@naberiz.com"><span class="email"></span></a>
+                                </div>
+                            </div>
+                            
+                        </div>
+                    </nav>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    
+    <header class="bg-gradient" id="home">
+        
+        <div class="container mt-5">
+            <h1><strong>NABERIZ<font color="red">LIVE</font></strong></h1>
+            <p class="tagline">"Ne Haberiz Millet?" </p>
+            <iframe src="https://www.naberiz.com/naberizapphighlightstickeriframepage" height="40px" width="100%" style="border:none;" scrolling="no"><p>Your browser does not support iframes.</p></iframe>
+
+        </div>
+        
+
+        
+        
+
+        <!----------------RADIO PLAYER------------------->
+
+        <div id="mrp-wrapper">
+
+        <div class="mrp-player-holder">
+
+            <div class="mrp-player-bar">
+
+                <div class="mrp-popup-toggle mrp-contr-btn" data-tooltip="Expand">
+                    <svg viewBox="0 0 448 512"><path d="M0 180V56c0-13.3 10.7-24 24-24h124c6.6 0 12 5.4 12 12v40c0 6.6-5.4 12-12 12H64v84c0 6.6-5.4 12-12 12H12c-6.6 0-12-5.4-12-12zM288 44v40c0 6.6 5.4 12 12 12h84v84c0 6.6 5.4 12 12 12h40c6.6 0 12-5.4 12-12V56c0-13.3-10.7-24-24-24H300c-6.6 0-12 5.4-12 12zm148 276h-40c-6.6 0-12 5.4-12 12v84h-84c-6.6 0-12 5.4-12 12v40c0 6.6 5.4 12 12 12h124c13.3 0 24-10.7 24-24V332c0-6.6-5.4-12-12-12zM160 468v-40c0-6.6-5.4-12-12-12H64v-84c0-6.6-5.4-12-12-12H12c-6.6 0-12 5.4-12 12v124c0 13.3 10.7 24 24 24h124c6.6 0 12-5.4 12-12z"></path></svg>
+                </div> 
+
+                <div class="mrp-volume-wrapper">
+
+                    <div class="mrp-volume-toggle">
+                        <div class="mrp-volume-icon mrp-contr-btn" data-tooltip="Volume">
+                            <svg viewBox="0 0 576 512"><path d="M215.03 71.05L126.06 160H24c-13.26 0-24 10.74-24 24v144c0 13.25 10.74 24 24 24h102.06l88.97 88.95c15.03 15.03 40.97 4.47 40.97-16.97V88.02c0-21.46-25.96-31.98-40.97-16.97zm233.32-51.08c-11.17-7.33-26.18-4.24-33.51 6.95-7.34 11.17-4.22 26.18 6.95 33.51 66.27 43.49 105.82 116.6 105.82 195.58 0 78.98-39.55 152.09-105.82 195.58-11.17 7.32-14.29 22.34-6.95 33.5 7.04 10.71 21.93 14.56 33.51 6.95C528.27 439.58 576 351.33 576 256S528.27 72.43 448.35 19.97zM480 256c0-63.53-32.06-121.94-85.77-156.24-11.19-7.14-26.03-3.82-33.12 7.46s-3.78 26.21 7.41 33.36C408.27 165.97 432 209.11 432 256s-23.73 90.03-63.48 115.42c-11.19 7.14-14.5 22.07-7.41 33.36 6.51 10.36 21.12 15.14 33.12 7.46C447.94 377.94 480 319.54 480 256zm-141.77-76.87c-11.58-6.33-26.19-2.16-32.61 9.45-6.39 11.61-2.16 26.2 9.45 32.61C327.98 228.28 336 241.63 336 256c0 14.38-8.02 27.72-20.92 34.81-11.61 6.41-15.84 21-9.45 32.61 6.43 11.66 21.05 15.8 32.61 9.45 28.23-15.55 45.77-45 45.77-76.88s-17.54-61.32-45.78-76.86z"></path></svg>
+                        </div>  
+                        <div class="mrp-mute-icon mrp-contr-btn" data-tooltip="Volume">
+                            <svg viewBox="0 0 640 512"><path d="M633.82 458.1l-69-53.33C592.42 360.8 608 309.68 608 256c0-95.33-47.73-183.58-127.65-236.03-11.17-7.33-26.18-4.24-33.51 6.95-7.34 11.17-4.22 26.18 6.95 33.51 66.27 43.49 105.82 116.6 105.82 195.58 0 42.78-11.96 83.59-33.22 119.06l-38.12-29.46C503.49 318.68 512 288.06 512 256c0-63.09-32.06-122.09-85.77-156.16-11.19-7.09-26.03-3.8-33.12 7.41-7.09 11.2-3.78 26.03 7.41 33.13C440.27 165.59 464 209.44 464 256c0 21.21-5.03 41.57-14.2 59.88l-39.56-30.58c3.38-9.35 5.76-19.07 5.76-29.3 0-31.88-17.53-61.33-45.77-76.88-11.58-6.33-26.19-2.16-32.61 9.45-6.39 11.61-2.16 26.2 9.45 32.61 11.76 6.46 19.12 18.18 20.4 31.06L288 190.82V88.02c0-21.46-25.96-31.98-40.97-16.97l-49.71 49.7L45.47 3.37C38.49-2.05 28.43-.8 23.01 6.18L3.37 31.45C-2.05 38.42-.8 48.47 6.18 53.9l588.36 454.73c6.98 5.43 17.03 4.17 22.46-2.81l19.64-25.27c5.41-6.97 4.16-17.02-2.82-22.45zM32 184v144c0 13.25 10.74 24 24 24h102.06l88.97 88.95c15.03 15.03 40.97 4.47 40.97-16.97V352.6L43.76 163.84C36.86 168.05 32 175.32 32 184z"></path></svg>
+                        </div>  
+                    </div>  
+
+                    <div class="mrp-volume-seekbar">
+                        <div class="mrp-volume-bg">
+                            <div class="mrp-volume-level"><div class="mrp-volume-drag"></div></div>
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
+
+            <div class="mrp-player-thumb-wrap">
+                <div class="mrp-player-thumb1 mrp-thumb-hidden"></div>
+                <div class="mrp-player-thumb2 mrp-thumb-hidden"></div>
+                <div class="mrp-player-thumb-cover"></div>
+            </div>
+
+            <div class="mrp-player-content">
+
+                <div class="mrp-info">
+                    <div class="mrp-player-artist"></div>
+                    <div class="mrp-player-title"></div>
+                </div>
+
+                <div class="mrp-spacer"></div>
+
+                <div class="mrp-player-controls-wrap">
+                    <div class="mrp-player-controls">
+                        <div class="mrp-prev-toggle mrp-contr-btn">
+                            <svg viewBox="0 0 448 512"><path d="M64 468V44c0-6.6 5.4-12 12-12h48c6.6 0 12 5.4 12 12v176.4l195.5-181C352.1 22.3 384 36.6 384 64v384c0 27.4-31.9 41.7-52.5 24.6L136 292.7V468c0 6.6-5.4 12-12 12H76c-6.6 0-12-5.4-12-12z"></path></svg>
+                        </div>
+
+                        <div class="mrp-playback-toggle mrp-contr-btn">
+                            <div class="mrp-pause-icon mrp-contr-btn">
+                                <svg viewBox="0 0 448 512"><path d="M144 479H48c-26.5 0-48-21.5-48-48V79c0-26.5 21.5-48 48-48h96c26.5 0 48 21.5 48 48v352c0 26.5-21.5 48-48 48zm304-48V79c0-26.5-21.5-48-48-48h-96c-26.5 0-48 21.5-48 48v352c0 26.5 21.5 48 48 48h96c26.5 0 48-21.5 48-48z"></path></svg>
+                            </div>    
+                            <div class="mrp-play-icon mrp-contr-btn">
+                                <svg viewBox="0 0 448 512"><path d="M424.4 214.7L72.4 6.6C43.8-10.3 0 6.1 0 47.9V464c0 37.5 40.7 60.1 72.4 41.3l352-208c31.4-18.5 31.5-64.1 0-82.6z"></path></svg>
+                            </div>    
+                        </div>
+
+                        <div class="mrp-next-toggle mrp-contr-btn">
+                            <svg viewBox="0 0 448 512" ><path d="M384 44v424c0 6.6-5.4 12-12 12h-48c-6.6 0-12-5.4-12-12V291.6l-195.5 181C95.9 489.7 64 475.4 64 448V64c0-27.4 31.9-41.7 52.5-24.6L312 219.3V44c0-6.6 5.4-12 12-12h48c6.6 0 12 5.4 12 12z"></path></svg>
+                        </div>
+                    </div>
+                </div>
+                
+            </div>
+            
+
+            <div class="mrp-preloader"></div>
+              
+        </div>
+
+        <div class="mrp-tooltip"></div>  
+
+
+    </div>  
+    
+
+    <!-- PLAYLIST LIST -->
+    <div id="mrp-playlist-list">
+
+        <div class="mrp-playlist-item playlist1" data-type="shoutcast" data-radio-url="http://sirius.shoutca.st:8431/;" data-radio-title="Naberiz Live" data-radio-thumb="data/default_artwork/NaberizLiveThumbnail.png"></div>
+
+        
+    </div>   
+
+    
+
+
+        <!----------------RADIO HISTORY------------------->
+        
+        </div>
+        <!---<div class="footerbottomsticky">Album Cover'lar itunes'den Otomatik olarak yukleniyor, bazi cover'lar sarkiyla uymayabilir, bu radyomuzla alakali degildir..</div>-->
+        <div class="historytitle"> Son <font color="red" size="5">#10</font> Çalınan..</div>
+        <div class="radio-history-playlist nbackground">
+        <div class="cc_recenttracks_list" data-username="naberiz">Loading ...</div>
+        <script language="javascript" type="text/javascript" src="https://sirius.shoutca.st/system/recenttracks.js"></script>
+        </div>
+        
+        <div class="mobile-container">
+        <span class="ti-facebook icon-gradient"></span> <div class="fb-like" data-href="https://www.facebook.com/naberizz" data-width="" data-layout="button_count" data-action="like" data-size="large" data-share="true"></div>
+        <div class="footerbottomsticky">Lütfen facebook sayfamızı beğenin, Radyo ve Mobile App hakkımızdaki tüm güncelleri facebook sayfamızdanda öğrenebilirsiniz. Bize desteğiniz herzaman çok önemli.. <a href="http://www.facebook.com/naberizz/">Naberiz Facebook</a></div>
+        </div>
+        
+    </header>
+
+    <div class="naberizblackbg" id="billboard">
+        
+        <div class="section-title">
+            <small>Naberiz Güncel</small>
+            <h3>Billboard <font color="red">Live</font></h3>
+        </div>
+        
+        <iframe src="https://www.naberiz.com/naberizappslideriframepage" height="500px" width="100%" style="border:none;" scrolling="no"><p>Your browser does not support iframes.</p></iframe>
+
+        <div class="mobile-container">
+            <div class="footerbottomsticky">Sizde herhangi bir Video'nuzu veya Reklamınızı burda tanıtmak istiyorsanız, ve Binlerce kullanıcılarımıza ulaşmak istiyorsanız bize bu link'den ulaşabilirsiniz.. <a href="mailto:contact@naberiz.com">Bize Ulaşın</a></div>
+        </div>
+        
+    </div>
+    <!-- // end .section -->
+
+    <div class="naberizblackbg" id="naberiz">
+                
+        <div class="section-title">
+            <small>Canlı Paylaşılanlar..</small>
+            <h3><font color="red">Sosyal</font> Yayın..</h3>
+            
+        </div>
+        <iframe src="https://www.naberiz.com/activity" height="600" width="100%" style="border:none;" scrolling="auto"><p>Your browser does not support iframes.</p></iframe>
+        <div class="mobile-container">
+        <div class="t6">Sizde bir Etkinlik, Müzik, Video, Afiş, İs yeri, Seri ilan veya herhangi bir Duyuru Paylaşmak istiyorsanız, Bize ÜYE Olun, Burda Yayınlansın..</div>
+    </div>
+    </div>
+    
+    
+    <!-- // end .section -->
+
+
+    <div class="naberizbg" id="adverts">
+        
+        <div class="section-title">
+            <small>Naberiz Reklam</small>
+            <h3>Afişler <font color="red">Live</font></h3>
+        </div>
+        
+        <iframe src="https://www.naberiz.com/naberizappadvertslideriframepage" height="500px" width="100%" style="border:none;" scrolling="no"><p>Your browser does not support iframes.</p></iframe>
+
+        <div class="mobile-container">
+            <div class="footerbottomsticky">Sizde reklamınızı burda olmasını istermisiniz? Binlerce kullanıcılarımıza ulaşmak istiyorsanız bize bu link'den ulaşabilirsiniz.. <a href="mailto:contact@naberiz.com">Bize Ulaşın</a></div>
+        </div>
+        
+    </div>
+
+    <!-- // end .section -->
+
+
+    <div class="naberizblackbg" id="playlist">
+        
+        <div class="section-title">
+            <small>Naberiz Radio Playlist</small>
+            <h3>#20<font color="red"> Playlist</font></h3>
+        </div>
+
+        <!-- TABS -->
+        <ul class="nav nav-tabs nav-justified" role="tablist">
+            <li class="nav-item">
+                <a class="nav-link active" data-toggle="tab" href="#turkcerap">TÜRKÇE RAP</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" data-toggle="tab" href="#turkcepop">TÜRKÇE POP</a>
+        </ul>
+
+        <div class="tab-content">
+            <div class="tab-pane fade show active" id="turkcerap">
+                <div class="d-flex flex-column flex-lg-row">
+                    <iframe src="https://www.naberiz.com/naberizappturkrapplaylistiframepage" height="500px" width="100%" style="border:none;" scrolling="yes"><p>Your browser does not support iframes.</p></iframe>
+                </div>
+            </div>
+            <div class="tab-pane fade" id="turkcepop">
+                <div class="d-flex flex-column flex-lg-row">
+                    <div class="d-flex flex-column flex-lg-row">
+                        <iframe src="https://www.naberiz.com/naberizappturkpopplaylistiframepage" height="500px" width="100%" style="border:none;" scrolling="yes"><p>Your browser does not support iframes.</p></iframe>
+                    </div>
+                </div>
+            </div>
+            
+        </div>
+
+        <div class="mobile-container">
+            <div class="footerbottomsticky">Playlistimiz'le ilgili sorulariniz veya görüşleriniz için <a href="mailto:contact@naberiz.com">Bize Ulaşın</a></div>
+        </div>
+        
+    </div>
+    <!-- // end .section -->
+
+       
+    <div class="section" Id="requests">
+
+        <div class="section-title">
+            <small>NaberizLive Radio</small>
+            <h3>Sizin Istekleriniz..</h3>
+            <div class="t8">Bize İsteklerinizi, Playlist'imizde olmayan veya yeni cikan sevdiğiniz sarkilari bizimle paylasmak icin alttaki formu doldurup bize gonderin. </div>
+        </div>
+
+    <div class="radiorequestform">
+
+    <form class="cc_request_form" data-username="naberiz">
+        <div data-type="result" class="request-result"></div>
+        Sanatçı: <input type="text"  name="request[artist]" size="40" maxlength="127" class="form-input" placeholder="Sanatcinin veya Gurubun Adi" /><br />
+        Şarkı Adı: <input type="text"  name="request[title]" size="40" maxlength="127" class="form-input" placeholder="Sarkinin Adi" /><br />
+        Mesajınız, İsteğiniz : <input type="text" name="request[dedication]" size="40" maxlength="500" class="form-input" placeholder="Mesaj/Youtube, Video Link, Tel No" /><br />
+        İsminiz: <input type="text"  name="request[sender]" size="40" maxlength="127" class="form-input" placeholder="Sizin isminiz" /><br />
+        Email Adresiniz: <input type="text"  name="request[email]" size="40" maxlength="127" class="form-input" placeholder="email@adres.com" /><br />
+        <input type="button" value="İstek Gönder" data-type="submit" class="request-button" /><br />
+        </form>
+    </div>
+    <script language="javascript" type="text/javascript" src="https://sirius.shoutca.st/system/request.js"></script>
+
+    </div>
+
+    <!-- // end .section -->
+
+
+    <div class="naberizblackbg" id="media">
+        
+        <div class="section-title">
+            <small>Sosyal Yayın'da Paylaşılan..</small>
+            <h3>Naberiz <font color="red">Medya</font></h3>
+        </div>
+
+    <!-- TABS -->
+    <ul class="nav nav-tabs nav-justified" role="tablist">
+        <li class="nav-item">
+            <a class="nav-link active" data-toggle="tab" href="#resimler">RESIMLER</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" data-toggle="tab" href="#videolar">VIDEOLAR</a>
+    </ul>
+
+    <div class="tab-content">
+        <div class="tab-pane fade show active" id="resimler">
+            <div class="d-flex flex-column flex-lg-row">
+                <iframe src="https://www.naberiz.com/naberizapplatestpicturesiframepage" height="500" width="100%" style="border:none;" scrolling="auto"><p>Your browser does not support iframes.</p></iframe>
+        </div>
+        </div>
+        <div class="tab-pane fade" id="videolar">
+            <div class="d-flex flex-column flex-lg-row">
+                <div class="d-flex flex-column flex-lg-row">
+                    <iframe src="https://www.naberiz.com/naberizapplatestvideosiframepage" height="500" width="100%" style="border:none;" scrolling="auto"><p>Your browser does not support iframes.</p></iframe>
+            </div>
+            </div>
+        </div>
+        <div class="mobile-container">
+            <div class="t6">Resim, Video ve Afiş Paylaşmak istiyorsanız, Bize ÜYE Olun, Naberiz Sosyal'e Paylaş, Burda Yayınlansın..</div>
+            </div>
+        
+    </div>
+    </div>
+
+    <!-- // end .section -->
+
+    <div class="naberizblackbg" id="events">
+        
+        <div class="section-title">
+            <small>Naberiz Events</small>
+            <h3>Etkinlik <font color="red">Live</font></h3>
+        </div>
+        
+        <iframe src="https://www.naberiz.com/naberizappeventsiframepage" height="600px" width="100%" style="border:none;" scrolling="yes"><p>Your browser does not support iframes.</p></iframe>
+
+        <div class="mobile-container">
+            <div class="footerbottomsticky">Etkinlik detayları, Resimler, Video'lar ve tüm paylaşılan medya türü, düzenleyen ve organize edene aittir.. soru ve şikayetleriniz için <a href="mailto:contact@naberiz.com">Bize Ulaşın</a></div>
+        </div>
+        
+    </div>
+    
+
+    <!-- // end .section -->
+
+    <!-- // Youtube Playlist -->
+
+    <div class="youtube-holder" id="youtube">
+
+    <div class="section-title">
+        <small>Video Playlist</small>
+        <h3>Naberiz <font color="red">Youtube</font></h3>
+    </div>
+
+
+    <a href="https://www.youtube.com/channel/UCrUnJurpWruKtFmNQWSlSDA"><button class="ytsubcribebtn"><span class="ti-youtube"></span> Subscribe</button></a>
+    
+    <div class="historytitle"><span class="ti-youtube"></span> Naberiz Videos</div>
+    <div class="t5">Bizim Yükledigimiz Video'lar..</div>
+    
+    <div class="youtube-section">
+        <iframe width="100%" height="210" src="https://www.youtube.com/embed/videoseries?list=PLFR9-UeA8b6EPA1HKZrcucqwt88FZxxOF" 
+        frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+
+    </div>
+
+
+    <div class="historytitle"><span class="ti-youtube"></span> En İyi Video'lar</div>
+    <div class="t5">Bizim seçtiğimiz en iyi video'lar..</div>
+
+    <div class="youtube-section">
+    <iframe width="100%" height="210" src="https://www.youtube.com/embed/videoseries?list=PLFR9-UeA8b6FOitJWg0xwyyqKwvKgxTPM" 
+    frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+    </div>
+    
+    <!--
+    <div class="historytitle"><span class="ti-youtube"></span> Türkçe Rap 2020</div>
+    <div class="t5">En Son 10 çıkan En iyi Türkçe Rap Playlist..</div>
+
+    <div class="youtube-section">
+    <iframe width="100%" height="210" src="https://www.youtube.com/embed/videoseries?list=PLFR9-UeA8b6FOitJWg0xwyyqKwvKgxTPM" 
+    frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+    </div>
+
+    
+    
+    <div class="historytitle"><span class="ti-youtube"></span> UK Türkçe Rap 2020</div>
+    <div class="t5">Ingiltere'den En Son Türkçe Rap Playlist..</div>
+    
+    <div class="youtube-section">
+    <iframe width="100%" height="210" src="https://www.youtube.com/embed/videoseries?list=PLFR9-UeA8b6FcuBklzGdGJAAABQFQBdqS" 
+    frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+
+    </div> -->
+
+    </div>
+   
+    <!-- // end .section -->
+
+    <div class="naberizsocialbg" id="social">
+    <div class="mobile-container">
+
+        <div class="section-title">
+            <small>Sosyal Paylaşımlarımız</small>
+            <h3>Naberiz <font color="red">Sosyal</font></h3>
+        </div>
+
+        <!----------------Insta Feed------------------->
+
+        <div class="socialinfo"><span class="ti-instagram icon-insta-color"></span> Bizim Instagram..</div>
+        <div class="t5">En son Güncellerimizi canlı almak için bizi takip edin..</div>
+        <div class="instafeed-holder">
+
+            <a href="http://www.instagram.com/naberiz_" target="_blank"><button class="naberizinstabtn"><span class="ti-instagram"></span> Bizi Takip Edin</button></a>
+            <div class="instagram" data-userid="" data-limit=""></div>
+        </div> 
+        
+        <div class="page-spacer"></div>
+    </div>
+     
+
+    <!----------------Twitter------------------->
+    <div class="mobile-container">
+    <div class="socialinfo"><span class="ti-twitter icon-gradient"></span> Bizim Tweet'ler..</div>
+    <div class="t5">En son Güncellerimizi canlı almak için bizi takip edin..</div>
+    <a href="https://twitter.com/naberiz?ref_src=twsrc%5Etfw" class="twitter-follow-button" data-size="large" data-show-count="false">Follow @naberiz</a><script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+    </div>
+    <div class="twitter-holder">
+    <a class="twitter-timeline" data-theme="dark" href="https://twitter.com/naberiz?ref_src=twsrc%5Etfw" data-tweet-limit="2">Tweets by naberiz</a>
+    <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+    
+    </div>
+    </div>
+
+    <!-- <div class="page-spacer2"></div> -->
+    
+
+    <!-- // end .section -->
+
+    <!----------------Facebook Socials------------------->
+
+    <div id="fb-root"></div>
+    <script async defer crossorigin="anonymous" src="https://connect.facebook.net/tr_TR/sdk.js#xfbml=1&version=v5.0&appId=214054522026574&autoLogAppEvents=1"></script>
+
+    <!--
+    <div class="mobile-container">
+        <a href="http://www.facebook.com/naberizz"><img src="data/default_artwork/NLogoCircle.png" class="facebook-img"></a>
+        <div class="socialinfo"><span class="ti-facebook icon-gradient"></span> Facebook Sayfamız..</div>
+            <div class="t5">Facebook sayfamızı takip edin, Hakkımızdaki bilgileri ilk siz öğrenin..</div>
+            </div>
+    
+    
+        
+        <div class="mobile-section">
+
+            <div class="fb-page" data-href="https://www.facebook.com/naberizz/" data-width="340" data-height="" 
+            data-small-header="false" data-adapt-container-width="true" data-hide-cover="false" data-show-facepile="false" data-tabs="">
+            <blockquote cite="https://www.facebook.com/naberizz/" class="fb-xfbml-parse-ignore">
+            <a href="https://www.facebook.com/naberizz/">Naberiz</a></blockquote></div>
+
+        </div>
+    
+    <div class="mobile-container">
+
+       <div class="mobile-section">
+            <div class="fb-group" data-href="https://www.facebook.com/groups/2007301872905600/" data-width="340" data-show-social-context="true" data-show-metadata="false"></div>
+        </div>  
+        
+        <div class="footerbottomsticky">Facebook Gurubumuza katılın, Herkezin paylaşabileceği ve hakkımızda tüm ayrıntiları bu gurupdan öğrenebilirsiniz. Üstelik önemsediğimiz paylaşımlarınızı Radyo ve NaberizApp'de görebilirsiniz.. ..</div>
+        </div>
+       
+    
+        <div class="mobile-section">
+        <div class="fb-like" data-href="https://www.facebook.com/naberizz" data-width="" data-layout="button_count" data-action="like" data-size="large" data-share="true"></div>
+        </div>
+        
+    </div>
+    </div>
+     // end .section -->
+
+
+      
+
+    <div class="naberizblackbgend" id="classifieds">
+        
+        <div class="section-title">
+            <small>Naberiz Reklam</small>
+            <h3><font color="red">Seri</font> İlanlarınız..</h3>
+            <!--<div class="mobile-container"><a href="http://www.naberiz.com/classifieds" target="_blank"><button class="naberizbtn"><span class="ti-world"></span> Seri İlanları Görüntüle..</button></a></div>
+            <div class="t8">Burdaki Seri İlanlar sadece görünür halinde, Tüm ilanları detaylı görmek için lütfen tuşa tıklayın.. </div>
+            -->
+        </div>
+        
+        <iframe src="https://www.naberiz.com/naberizappclassifiedsiframepage" height="500" width="100%" style="border:none;" scrolling="auto"><p>Your browser does not support iframes.</p></iframe>
+        
+        <div class="mobile-container">
+        <div class="t6">Sizde herhangi bir ilan ve Duyuru Paylaşmak istiyorsanız, Bize ÜYE Olun, Burda Yayınlansın..</div>
+    </div>
+    </div>
+
+
+    <!--<div class="footerbottom">
+        
+        Copyright © 2020. All Rights Reserved. App By V-WEB | <a href="http://www.naberiz.com">NABERIZ.COM</a>
+
+    </div> -->
+
+    <script type="text/javascript">
+    jQuery(function($){
+        $('.fTab').on('click', function(){
+            $(this).toggleClass('active');
+        });
+    })
+    </script>
+
+<span class="fTab"><img src="images/arrowup.png"></span>
+    <div class="sticky-footer">
+          <div class="footerimage"><a href="#home"><img src="data/default_artwork/NaberizLiveThumbnail.png" class="footer-img"></a></div>
+        <div class="footerstyling">
+          <div class="t7">Now Playing..</div>
+          <span class="cc_streaminfo" data-type="song" data-username="naberiz" >Yüklüyor...</span>
+          <script language="javascript" type="text/javascript" src="https://hyades.shoutca.st/system/streaminfo.js"></script>
+        </div>
+        <div class="footerbottomtext">
+            <!-- Copyright  -->
+            Copyright © 2020. NaberizApp By BV | <a href="http://www.naberiz.com">NABERIZ.COM</a>
+    
+        </div>
+    </div>
+   
+
+    <!-- jQuery and Bootstrap -->
+    <script src="js/jquery-3.2.1.min.js"></script>
+    <script src="js/bootstrap.bundle.min.js"></script>
+    <script src="js/jquery.slim.js"></script>
+    <!-- Plugins JS -->
+    <script src="js/owl.carousel.min.js"></script>
+    <!-- Custom JS -->
+    <script src="js/script.js"></script>
+
+    <script src="js/instagramfeed.js"></script>
+        
+        
+    </body>
+</html>
